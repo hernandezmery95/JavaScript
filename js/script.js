@@ -1,16 +1,51 @@
-let monto = parseInt(prompt ("Ingrese el monto de su prestamo"));
+class Prestamo {
+    constructor(monto, cuotas, interesAnual) {
+        this.monto = monto;
+        this.cuotas = cuotas;
+        this.interesAnual = interesAnual;
+        this.interesMensual = calcularInteresMensual(this.interesAnual)
+        this.cuotaMensual = calcularCuotaMensual(monto, this.interesMensual, cuotas);
+        this.montoFinal = calcularMontoFinal(this.cuotaMensual, cuotas);
+    }
 
-while (monto <= 0 || Number.isNaN(monto)){
-    monto  = parseInt(prompt ("El monto ingresado es invalido. Ingreselo nuevamente."));
+    mostrarDetalles() {
+        return "La cuota mensual es de $" + this.cuotaMensual.toFixed(2) + "\nEl monto total es de $" + this.montoFinal.toFixed(2);
+    }
 }
 
-let cuotas = parseInt(prompt ("En cuantas cuotas pagaria el prestamo?"));
+const INTERES_ANUAL = 50
 
-while (cuotas <=0 || Number.isNaN(cuotas)){
-    cuotas  = parseInt(prompt ("La cantidad de cuotas ingresada es invalido. Ingresela nuevamente"));
+function solicitarPrestamo() {
+    let monto = parseInt(prompt("Ingrese el monto de su prestamo"));
+
+    while (monto <= 0 || Number.isNaN(monto)) {
+        monto = parseInt(prompt("El monto ingresado es invalido. Ingreselo nuevamente."));
+    }
+
+    let cuotas = parseInt(prompt("En cuantas cuotas pagaria el prestamo?"));
+
+    while (cuotas <= 0 || Number.isNaN(cuotas)) {
+        cuotas = parseInt(prompt("La cantidad de cuotas ingresada es invalida. Ingresela nuevamente"));
+    }
+
+    const prestamo = new Prestamo(monto, cuotas, INTERES_ANUAL);
+    return prestamo;
 }
 
-function calcularInteresMensual(interesAnual){
+let prestamos = [];
+
+let cantidadPrestamos = parseInt(prompt("¿Cuántos préstamos desea solicitar?"));
+while (cantidadPrestamos <= 0 || Number.isNaN(cantidadPrestamos)) {
+    cantidadPrestamos = parseInt(prompt("La cantidad de prestamos ingresada es invalida. Ingresela nuevamente"));
+}
+
+for (let i = 0; i < cantidadPrestamos; i++) {
+    let prestamo = solicitarPrestamo();
+    prestamos.push(prestamo);
+    alert(prestamo.mostrarDetalles());
+}
+
+function calcularInteresMensual(interesAnual) {
     return interesAnual / (12 * 100)
 }
 
@@ -18,14 +53,13 @@ function calcularCuotaMensual(montoPrestamo, interesMensual, cuotaPrestamo) {
     return (montoPrestamo * interesMensual * ((1 + interesMensual) ** cuotaPrestamo)) / (((1 + interesMensual) ** cuotaPrestamo) - 1);
 }
 
-function calcularMontoFinal(cuotaMensual, cuotaPrestamo){
+function calcularMontoFinal(cuotaMensual, cuotaPrestamo) {
     return cuotaMensual * cuotaPrestamo
 }
 
-const INTERES_ANUAL = 50
-const INTERES_MENSUAL = calcularInteresMensual(INTERES_ANUAL)
-const CUOTA_MENSUAL = calcularCuotaMensual(monto,INTERES_MENSUAL,cuotas)
-const MONTO_FINAL = calcularMontoFinal(CUOTA_MENSUAL,cuotas)
 
 
-alert ("La cuota mensual es de $" + CUOTA_MENSUAL.toFixed(2) + "\nEl monto total es de $" + MONTO_FINAL.toFixed(2))
+for (let i = 0; i < prestamos.length; i++) {
+    console.log(`Préstamo ${i + 1}:`);
+    console.log(prestamos[i].mostrarDetalles());
+}
