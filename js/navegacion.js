@@ -1,6 +1,6 @@
 const body = document.body
 const header = document.createElement('header');
-body.appendChild(header)
+body.prepend(header)
 
 const nav = document.createElement('nav');
 const ul = document.createElement('ul');
@@ -30,3 +30,4 @@ for (const link of links) {
     li.appendChild(a);
     ul.appendChild(li);
 }
+
