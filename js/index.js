@@ -10,7 +10,8 @@ class Prestamo {
     }
 
     mostrarDetalles() {
-        return "La cuota mensual es de $" + this.cuotaMensual.toFixed(2) + "\nEl monto total es de $" + this.montoFinal.toFixed(2);
+        const { cuotaMensual, montoFinal } = this
+        return "La cuota mensual es de $" + cuotaMensual.toFixed(2) + "\nEl monto total es de $" + montoFinal.toFixed(2);
     }
 }
 
