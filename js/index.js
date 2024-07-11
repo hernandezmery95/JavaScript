@@ -148,12 +148,8 @@ form.addEventListener('submit', (e) => {
 const p = document.createElement('p')
 
 function guardarPrestamo(prestamo) {
-    let prestamos = JSON.parse(localStorage.getItem("prestamos"))
-    if (prestamos && prestamos.length) {
-        prestamos.push(prestamo)
-    } else {
-        prestamos = [prestamo]
-    }
+    const prestamosGuardados = JSON.parse(localStorage.getItem("prestamos"))
+    const prestamos = (prestamosGuardados && prestamosGuardados.length) ? [...prestamosGuardados, prestamo] : [prestamo]
     localStorage.setItem("prestamos", JSON.stringify(prestamos))
     mostrarHistorial()
 }
