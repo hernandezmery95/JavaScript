@@ -1,3 +1,7 @@
+const responseTasa = await fetch("tasa.json");
+const dataTasa = await responseTasa.json();
+const { tasaInteres } = dataTasa
+
 class Prestamo {
     constructor(monto, cuotas, interesAnual) {
         this.monto = monto;
@@ -14,8 +18,6 @@ class Prestamo {
     }
 }
 
-const INTERES_ANUAL = 50
-
 function calcularInteresMensual(interesAnual) {
     return interesAnual / (12 * 100)
 }
@@ -31,6 +33,7 @@ function calcularMontoFinal(cuotaMensual, cuotaPrestamo) {
 const main = document.getElementById("mainIndex");
 const container = document.createElement('div');
 const sectionTitle = document.createElement('h3');
+const tasaMensaje = document.createElement('h4');
 const form = document.createElement('form');
 
 container.style.display = "flex";
@@ -39,6 +42,7 @@ container.style.gap = "24px";
 container.id = "container"
 
 main.appendChild(container);
+form.appendChild(tasaMensaje);
 form.appendChild(sectionTitle);
 container.appendChild(form);
 
@@ -48,6 +52,8 @@ historial.style.flexDirection = "column"
 historial.style.gap = "8px"
 historial.style.marginTop = "32px"
 container.appendChild(historial)
+
+tasaMensaje.textContent = `Tasa de interés anual: ${tasaInteres}%`
 
 sectionTitle.textContent = "Cotiza tu prestamo"
 sectionTitle.style.marginTop = '16px'
@@ -102,7 +108,7 @@ function mostrarHistorial() {
         for (let i = 0; i <= prestamos.length; i++) {
             const prestamo = prestamos[i]
             if (prestamo) {
-                const prestamoObj = new Prestamo(prestamo.monto, prestamo.cuotas, INTERES_ANUAL)
+                const prestamoObj = new Prestamo(prestamo.monto, prestamo.cuotas, tasaInteres)
                 const div = document.createElement("div")
                 const h5 = document.createElement("h5")
                 h5.textContent = "Prestamo " + (i + 1)
@@ -150,7 +156,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const monto = e.target.elements["input-monto"].value
     const cuotas = e.target.elements["input-cuotas"].value
-    const prestamo = new Prestamo(monto, cuotas, INTERES_ANUAL);
+    const prestamo = new Prestamo(monto, cuotas, tasaInteres);
     console.log("prestamo: ", prestamo)
     p.textContent = prestamo.mostrarDetalles()
     main.appendChild(p)
