@@ -1,4 +1,3 @@
-
 class Prestamo {
     constructor(monto, cuotas, interesAnual) {
         this.monto = monto;
@@ -125,6 +124,19 @@ function mostrarHistorial() {
         botonBorrarHistorial.onclick = () => {
             localStorage.removeItem("prestamos")
             mostrarHistorial()
+            Toastify({
+                text: "Historial borrado 🗑",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                offset: {
+                    y: 72
+                },
+                style: {
+                    background: "#EDDBDB",
+                    color: "black"
+                }
+            }).showToast();
         }
         historial.appendChild(botonBorrarHistorial)
     } else {
@@ -152,6 +164,19 @@ function guardarPrestamo(prestamo) {
     const prestamos = (prestamosGuardados && prestamosGuardados.length) ? [...prestamosGuardados, prestamo] : [prestamo]
     localStorage.setItem("prestamos", JSON.stringify(prestamos))
     mostrarHistorial()
+    Toastify({
+        text: "Cotización lista ✅",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        offset: {
+            y: 72
+        },
+        style: {
+            background: "#EDDBDB",
+            color: "black"
+        }
+    }).showToast();
 }
 
 
